@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="asset 17.svg">
+    <title>Work: TodoList</title>
+</head>
+
+<body>
+    <nav class="work-nav">
+        <ul style="margin-top: 0px;" class="work-ul">
+            <div class="ancher">
+                <li><button class="worknav-btn"><i class="fa-solid fa-bars fa-2xl" style="color: #ffffff;"></i></button>
+                </li>
+            </div>
+            <div class="ancher">
+                <li><button class="worknav-btn"><a href="/"><i class="fa-solid fa-house fa-2xl"
+                                style="color: #ffffff;"></i></a></button></li>
+            </div>
+            <div class="input-imp" style="flex-direction: row;">
+                <button class="worknav-btnn"><i class="fa-solid fa-magnifying-glass fa-2xl"
+                        style="color: #ffffff;"></i></button>
+                <input type="text" placeholder="Search" class="inputnav">
+            </div>
+        </ul>
+    </nav>
+
+    <div class="main-work">
+        <div class="verticalnav">
+            <ul class="verticalnav-ul">
+                <li><i class="fa-solid fa-inbox fa-lg" style="color: #246fe0;"></i><a href="">Library</a></li>
+                <li><i class="fa-regular fa-calendar fa-lg" style="color: #4b9244;"></i><a href="">Today</a></li>
+                <li><i class="fa-solid fa-calendar-days fa-lg" style="color: #692ec2;"></i><a href="">Upcoming</a></li>
+                <li><i class="fa-solid fa-tag fa-lg" style="color: #c77100;"></i><a href="">Filter & Label</a></li>
+            </ul>
+            <div class="projects">
+                <h2>Projects</h2>
+                <button class="projects-btn" onclick="addproject()"><i class="fa-solid fa-plus fa-2xl"
+                        style="color: #706d66;"></i></button>
+                <form id="showproject" action="/addproject" method="post">
+                    <input type="color" required name="color">
+                    <input type="text" class="addproject" id="showproject()" placeholder="Add Project"
+                        autocomplete="off" required name="projectname">
+                    <button type="submit" class="pro"><i class="fa-solid fa-plus fa-xl"
+                            style="color: #706d66; padding-left: 0px;"></i></button>
+                </form>
+            </div>
+            <ul class="verticalnav-ul">
+                <% project.forEach(function(project){ %>
+                    <li><i class="fa-solid fa-circle fa-sm" style="color:#b8b8b4"></i><a
+                            href="/features?name=<%=project.Title %>">
+                            <%= project.Title %>
+                        </a></li>
+                    <% }) %>
+            </ul>
+        </div>
+        <%if(!name){%>
+            <h1 class="name">Please Create Or Choose a New Project</h1>
+        <%}%>
+        <div class="content">
+            <div class="items">
+                <div class="mainheading">
+                            <%if(name){%>
+                                <h1 class="work">
+                                    <%=name%>
+                                </h1>
+                                <div>
+                                    <button id="ellipsis"><i class="fa-solid fa-ellipsis fa-2xl"
+                                            style="color: #1a1a1a;"></i></button>
+                                </div>
+                </div>
+                <hr class="hortizontal">
+                <div>
+                    <% if(Items.length===0){ %>
+                        <ul class="itemscontent">
+                            <li class="checkbox">
+                                <h4 style="margin: 10px 0px;">
+                                    NO Task !!!!!
+                                </h4>
+                            </li>
+                        </ul>
+                        <hr class="hortizontal">
+                        <% } %>
+                            <% Items.forEach(function(Items){ %>
+                                <ul class="itemscontent">
+                                    <li class="checkbox">
+                                        <form action="/delete?name=<%=Items.Name%>" method="post" style="padding-top: 10px;"
+                                            class="task-del-btn">
+                                            <button class="check-btn" name="deletetodo" value="<%= Items._id %>"><i
+                                                    class="fa-solid fa-trash fa-2xl"
+                                                    style="color: #808080; padding: 10px 0px;"></i></button>
+                                        </form>
+                                        <h4 style="margin: 10px 0px;" class="taskwidth">
+                                            <%= Items.Item  %>
+                                        </h4>
+                                        <button id="editbtn" style="margin-top: 15px;"
+                                            onclick="showedit('<%= Items._id %>')"><i
+                                                class="fa-regular fa-pen-to-square fa-2xl" value="<%= Items._id%>"
+                                                style="color: #808080;"></i></button>
+                                    </li>
+                                </ul>
+                                <ul class="itemscontent" style="padding-left: 0px;">
+                                    <li class="checkbox update" id="<%= Items._id %>" style="display: none;">
+                                        <form action="/edit?name=<%=Items.Name%>" method="post">
+                                            <ul class="itemscontent">
+                                                <li id="addtask">
+                                                    <button class="add-btn" type="submit" value="<%=Items._id%>"
+                                                        name="update"><i class="fa-solid fa-check fa-2xl"
+                                                            style="color: #db4c3f;"></i></button>
+                                                    <input type="text" placeholder="Update Task" name="task"
+                                                        autocomplete="off" required>
+                                                </li>
+                                            </ul>
+                                        </form>
+                                    </li>
+                                </ul>
+                                <hr class="hortizontal">
+                                <% }) %>
+                                    <form action="/features?name=<%=name%>" method="post">
+                                        <ul class="itemscontent">
+                                            <li id="addtask">
+                                                <button class="add-btn" type="submit"><i class="fa-solid fa-plus fa-2xl"
+                                                        style="color: #db4c3f;"></i></button>
+                                                <input type="text" placeholder="Add Task" name="task" autocomplete="off"
+                                                    required>
+                                            </li>
+                                        </ul>
+                                    </form>
+                </div>
+                <%}%>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="index.js"></script>
+    <script src="https://kit.fontawesome.com/d8cca2ac41.js" crossorigin="anonymous"></script>
+
+</body>
+
+</html>
+
